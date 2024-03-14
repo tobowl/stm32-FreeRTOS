@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "delay.h": "c",
+        "stm32f1x_gpio_cus.h": "c",
+        "stm32f1x_cus.h": "c",
+        "stm32f10x.h": "c",
+        "bsp_exti.h": "c",
+        "stdio.h": "c"
+    }
+}

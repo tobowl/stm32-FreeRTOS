@@ -1,0 +1,3 @@
+/home/rice/day2/VSCode-arm-gcc-FreeRTOS-STM32F1/build/CMakeFiles/rebuild_cache.dir
+/home/rice/day2/VSCode-arm-gcc-FreeRTOS-STM32F1/build/CMakeFiles/edit_cache.dir
+/home/rice/day2/VSCode-arm-gcc-FreeRTOS-STM32F1/build/CMakeFiles/vscodeSTM32.elf.dir

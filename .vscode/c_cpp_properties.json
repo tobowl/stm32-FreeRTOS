@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "arm_gcc",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/user",
+                "${workspaceFolder}/fwlib/CMSIS",
+                "${workspaceFolder}/fwlib/STM32F10x_StdPeriph_Driver/inc"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "STM32F10X_HD",
+                "USE_STDPERIPH_DRIVER"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "c++98",
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": "E:\\stm32_toolchain\\gcc-arm-none-eabi-10.3-2021.10\\bin\\arm-none-eabi-gcc.exe",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

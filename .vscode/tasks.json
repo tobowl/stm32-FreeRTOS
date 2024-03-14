@@ -1,0 +1,43 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "cmake",
+			"type": "shell",
+			"command":"cmake",
+			"args": [
+				"-B",
+				"build/",
+				"-G",
+				"Unix Makefiles",
+				"-DCMAKE_BUILD_TYPE=Debug"
+			],
+			"group": "build"
+		},
+		{
+			"label": "build",
+			"type": "shell",
+			"command":"make",
+			"args": [
+				"-j4",
+				"-C",
+				"build/"
+			],
+			"group": "build"
+		},
+		{
+			"label": "download",
+			"type": "shell",
+			"command":"openocd",
+			"args": [
+				"-f",
+				"interface/cmsis-dap.cfg",
+				"-f",
+                "target/stm32f1x.cfg",
+				"-c",
+				"program build/vscodeSTM32.elf verify reset exit"
+			],
+			"group": "build"
+		}
+	]
+}
