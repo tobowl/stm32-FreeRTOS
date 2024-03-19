@@ -91,9 +91,9 @@ void Task1_LED(void *param)
 	const TickType_t xTickstoWait = pdMS_TO_TICKS(500);
 	while (1)
 	{
-		GPIO_WriteBit(GPIOE, GPIO_Pin_5, Bit_RESET);
+		GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 		vTaskDelay(xTickstoWait);
-		GPIO_WriteBit(GPIOE, GPIO_Pin_5, Bit_SET);
+		GPIO_SetBits(GPIOC, GPIO_Pin_13);
 		vTaskDelay(xTickstoWait);
 	}
 }
@@ -117,26 +117,30 @@ int main( void )
 
 	prvSetupHardware();
 
-	xTaskCreate(Task1_LED, "Task1_LED", 100, NULL, 1, NULL);
-	xTaskCreate(Task2_Print, "Task2_Print", 100, NULL, 1, NULL);
+	// xTaskCreate(Task1_LED, "Task1_LED", 100, NULL, 1, NULL);
+	// xTaskCreate(Task2_Print, "Task2_Print", 100, NULL, 1, NULL);
 
 	/* Start the scheduler. */
-	vTaskStartScheduler();
+	// vTaskStartScheduler();
+	Task1_LED(NULL);
 
 	/* Will only get here if there was not enough heap space to create the
 	idle task. */
+	// while(1)
+	// {
+	// };
 	return 0;
 }
 /*-----------------------------------------------------------*/
 
 static void GPIO_LED_Conf(void)
 {
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
 	GPIO_InitTypeDef GPIO_InitStructure;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOE, &GPIO_InitStructure);
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
 
 /*-----------------------------------------------------------*/
