@@ -180,8 +180,8 @@ g_pfnVectors:
 	.word	USART3_IRQHandler
 	.word	EXTI15_10_IRQHandler
 	.word	RTCAlarm_IRQHandler
-	.word	USBWakeUp_IRQHandler	
-  .word	0
+	.word	USBWakeUp_IRQHandler
+	.word	0
 	.word	0
 	.word	0
 	.word	0
@@ -198,7 +198,7 @@ g_pfnVectors:
 * this definition.
 *
 *******************************************************************************/
-    
+
   .weak	NMI_Handler
 	.thumb_set NMI_Handler,Default_Handler
 	
