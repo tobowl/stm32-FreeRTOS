@@ -1,0 +1,725 @@
+ARM GAS  /tmp/cctcIEy9.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   5              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   6              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   7              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   8              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   9              		.eabi_attribute 26, 1	@ Tag_ABI_enum_size
+  10              		.eabi_attribute 30, 1	@ Tag_ABI_optimization_goals
+  11              		.eabi_attribute 34, 1	@ Tag_CPU_unaligned_access
+  12              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  13              		.file	"bsp_usart.c"
+  14              	@ GNU C11 (GNU Tools for ARM Embedded Processors) version 5.4.1 20160919 (release) [ARM/embedded-5-
+  15              	@	compiled by GNU C version 4.7.4, GMP version 4.3.2, MPFR version 2.4.2, MPC version 0.8.1
+  16              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  17              	@ options passed:  -I ./user/ -I ./fwlib/CMSIS/
+  18              	@ -I ./fwlib/STM32F10x_StdPeriph_Driver/inc/ -I ./freertos/include/
+  19              	@ -I ./freertos/portable/GCC/ARM_CM3/ -imultilib armv7-m
+  20              	@ -iprefix /home/rice/emba/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/5.4.1/
+  21              	@ -isysroot /home/rice/emba/gcc-arm-none-eabi/bin/../arm-none-eabi
+  22              	@ -D__USES_INITFINI__ -D STM32F10X_MD -D USE_STDPERIPH_DRIVER
+  23              	@ -D HSE_VALUE=8000000 -D RUN_FROM_FLASH=1 user/bsp_usart.c -mcpu=cortex-m3
+  24              	@ -mthumb -auxbase-strip build/heap_4.o -g -gdwarf-2 -Og -Wall
+  25              	@ -fomit-frame-pointer -fverbose-asm
+  26              	@ options enabled:  -faggressive-loop-optimizations -fauto-inc-dec
+  27              	@ -fchkp-check-incomplete-type -fchkp-check-read -fchkp-check-write
+  28              	@ -fchkp-instrument-calls -fchkp-narrow-bounds -fchkp-optimize
+  29              	@ -fchkp-store-bounds -fchkp-use-static-bounds
+  30              	@ -fchkp-use-static-const-bounds -fchkp-use-wrappers
+  31              	@ -fcombine-stack-adjustments -fcommon -fcompare-elim -fcprop-registers
+  32              	@ -fdefer-pop -fdelete-null-pointer-checks -fdwarf2-cfi-asm
+  33              	@ -fearly-inlining -feliminate-unused-debug-types -fforward-propagate
+  34              	@ -ffunction-cse -fgcse-lm -fgnu-runtime -fgnu-unique
+  35              	@ -fguess-branch-probability -fident -finline -finline-atomics
+  36              	@ -fipa-profile -fipa-pure-const -fipa-reference -fira-hoist-pressure
+  37              	@ -fira-share-save-slots -fira-share-spill-slots -fivopts
+  38              	@ -fkeep-static-consts -fleading-underscore -flifetime-dse
+  39              	@ -flto-odr-type-merging -fmath-errno -fmerge-constants
+  40              	@ -fmerge-debug-strings -fomit-frame-pointer -fpeephole
+  41              	@ -fprefetch-loop-arrays -freg-struct-return
+  42              	@ -fsched-critical-path-heuristic -fsched-dep-count-heuristic
+  43              	@ -fsched-group-heuristic -fsched-interblock -fsched-last-insn-heuristic
+  44              	@ -fsched-pressure -fsched-rank-heuristic -fsched-spec
+  45              	@ -fsched-spec-insn-heuristic -fsched-stalled-insns-dep -fsection-anchors
+  46              	@ -fsemantic-interposition -fshow-column -fshrink-wrap -fsigned-zeros
+  47              	@ -fsplit-ivs-in-unroller -fsplit-wide-types -fstdarg-opt
+  48              	@ -fstrict-volatile-bitfields -fsync-libcalls -ftoplevel-reorder
+  49              	@ -ftrapping-math -ftree-ccp -ftree-ch -ftree-coalesce-vars
+  50              	@ -ftree-copy-prop -ftree-copyrename -ftree-cselim -ftree-dce
+  51              	@ -ftree-dominator-opts -ftree-dse -ftree-forwprop -ftree-fre
+  52              	@ -ftree-loop-if-convert -ftree-loop-im -ftree-loop-ivcanon
+  53              	@ -ftree-loop-optimize -ftree-parallelize-loops= -ftree-phiprop
+  54              	@ -ftree-reassoc -ftree-scev-cprop -ftree-sink -ftree-slsr -ftree-ter
+  55              	@ -funit-at-a-time -fvar-tracking -fvar-tracking-assignments -fverbose-asm
+  56              	@ -fzero-initialized-in-bss -masm-syntax-unified -mfix-cortex-m3-ldrd
+  57              	@ -mlittle-endian -mpic-data-is-text-relative -msched-prolog -mthumb
+ARM GAS  /tmp/cctcIEy9.s 			page 2
+
+
+  58              	@ -munaligned-access -mvectorize-with-neon-quad
+  59              	
+  60              		.text
+  61              	.Ltext0:
+  62              		.cfi_sections	.debug_frame
+  63              		.align	2
+  64              		.thumb
+  65              		.thumb_func
+  67              	NVIC_Configuration:
+  68              	.LFB30:
+  69              		.file 1 "user/bsp_usart.c"
+   1:user/bsp_usart.c **** #include "bsp_usart.h"
+   2:user/bsp_usart.c **** 
+   3:user/bsp_usart.c **** static void NVIC_Configuration(void)
+   4:user/bsp_usart.c **** {
+  70              		.loc 1 4 0
+  71              		.cfi_startproc
+  72              		@ args = 0, pretend = 0, frame = 8
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74 0000 00B5     		push	{lr}	@
+  75              	.LCFI0:
+  76              		.cfi_def_cfa_offset 4
+  77              		.cfi_offset 14, -4
+  78 0002 83B0     		sub	sp, sp, #12	@,,
+  79              	.LCFI1:
+  80              		.cfi_def_cfa_offset 16
+   5:user/bsp_usart.c ****     NVIC_InitTypeDef NVIC_InitStructure;
+   6:user/bsp_usart.c **** 
+   7:user/bsp_usart.c ****     // 嵌套向量中断控制器组选择
+   8:user/bsp_usart.c ****     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+  81              		.loc 1 8 0
+  82 0004 4FF4A060 		mov	r0, #1280	@,
+  83 0008 FFF7FEFF 		bl	NVIC_PriorityGroupConfig	@
+  84              	.LVL0:
+   9:user/bsp_usart.c **** 
+  10:user/bsp_usart.c ****     // 配置USART为中断源
+  11:user/bsp_usart.c ****     NVIC_InitStructure.NVIC_IRQChannel = DEBUG_USART_IRQ;
+  85              		.loc 1 11 0
+  86 000c 2523     		movs	r3, #37	@ tmp110,
+  87 000e 8DF80430 		strb	r3, [sp, #4]	@ tmp110, NVIC_InitStructure.NVIC_IRQChannel
+  12:user/bsp_usart.c ****     // 抢断优先级
+  13:user/bsp_usart.c ****     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+  88              		.loc 1 13 0
+  89 0012 0123     		movs	r3, #1	@ tmp112,
+  90 0014 8DF80530 		strb	r3, [sp, #5]	@ tmp112, NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority
+  14:user/bsp_usart.c ****     // 子优先级
+  15:user/bsp_usart.c ****     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  91              		.loc 1 15 0
+  92 0018 8DF80630 		strb	r3, [sp, #6]	@ tmp112, NVIC_InitStructure.NVIC_IRQChannelSubPriority
+  16:user/bsp_usart.c ****     // 使能中断
+  17:user/bsp_usart.c ****     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  93              		.loc 1 17 0
+  94 001c 8DF80730 		strb	r3, [sp, #7]	@ tmp112, NVIC_InitStructure.NVIC_IRQChannelCmd
+  18:user/bsp_usart.c **** 
+  19:user/bsp_usart.c ****     NVIC_Init(&NVIC_InitStructure);
+  95              		.loc 1 19 0
+  96 0020 01A8     		add	r0, sp, #4	@,,
+ARM GAS  /tmp/cctcIEy9.s 			page 3
+
+
+  97 0022 FFF7FEFF 		bl	NVIC_Init	@
+  98              	.LVL1:
+  20:user/bsp_usart.c **** }
+  99              		.loc 1 20 0
+ 100 0026 03B0     		add	sp, sp, #12	@,,
+ 101              	.LCFI2:
+ 102              		.cfi_def_cfa_offset 4
+ 103              		@ sp needed	@
+ 104 0028 5DF804FB 		ldr	pc, [sp], #4	@
+ 105              		.cfi_endproc
+ 106              	.LFE30:
+ 108              		.align	2
+ 109              		.global	USART_Conf
+ 110              		.thumb
+ 111              		.thumb_func
+ 113              	USART_Conf:
+ 114              	.LFB31:
+  21:user/bsp_usart.c **** 
+  22:user/bsp_usart.c **** void USART_Conf(void)
+  23:user/bsp_usart.c **** {
+ 115              		.loc 1 23 0
+ 116              		.cfi_startproc
+ 117              		@ args = 0, pretend = 0, frame = 24
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119 002c 10B5     		push	{r4, lr}	@
+ 120              	.LCFI3:
+ 121              		.cfi_def_cfa_offset 8
+ 122              		.cfi_offset 4, -8
+ 123              		.cfi_offset 14, -4
+ 124 002e 86B0     		sub	sp, sp, #24	@,,
+ 125              	.LCFI4:
+ 126              		.cfi_def_cfa_offset 32
+  24:user/bsp_usart.c ****     GPIO_InitTypeDef GPIO_InitStructure;
+  25:user/bsp_usart.c ****     USART_InitTypeDef USART_InitStructure;
+  26:user/bsp_usart.c **** 
+  27:user/bsp_usart.c ****     // 打开串口GPIO时钟
+  28:user/bsp_usart.c ****     DEBUG_USART_GPIO_APBxClkCmd(DEBUG_USART_GPIO_CLK, ENABLE);
+ 127              		.loc 1 28 0
+ 128 0030 0121     		movs	r1, #1	@,
+ 129 0032 0420     		movs	r0, #4	@,
+ 130 0034 FFF7FEFF 		bl	RCC_APB2PeriphClockCmd	@
+ 131              	.LVL2:
+  29:user/bsp_usart.c **** 
+  30:user/bsp_usart.c ****     // 打开串口外设时钟
+  31:user/bsp_usart.c ****     DEBUG_USART_APBxClkCmd(DEBUG_USART_CLK, ENABLE);
+ 132              		.loc 1 31 0
+ 133 0038 0121     		movs	r1, #1	@,
+ 134 003a 4FF48040 		mov	r0, #16384	@,
+ 135 003e FFF7FEFF 		bl	RCC_APB2PeriphClockCmd	@
+ 136              	.LVL3:
+  32:user/bsp_usart.c **** 
+  33:user/bsp_usart.c ****     // 将USART Tx的 GPIO配置位推挽复用模式
+  34:user/bsp_usart.c ****     GPIO_InitStructure.GPIO_Pin = DEBUG_USART_TX_GPIO_PIN;
+ 137              		.loc 1 34 0
+ 138 0042 4FF40073 		mov	r3, #512	@ tmp111,
+ 139 0046 ADF81430 		strh	r3, [sp, #20]	@ movhi	@ tmp111, GPIO_InitStructure.GPIO_Pin
+  35:user/bsp_usart.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ARM GAS  /tmp/cctcIEy9.s 			page 4
+
+
+ 140              		.loc 1 35 0
+ 141 004a 1823     		movs	r3, #24	@ tmp112,
+ 142 004c 8DF81730 		strb	r3, [sp, #23]	@ tmp112, GPIO_InitStructure.GPIO_Mode
+  36:user/bsp_usart.c ****     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 143              		.loc 1 36 0
+ 144 0050 0323     		movs	r3, #3	@ tmp114,
+ 145 0052 8DF81630 		strb	r3, [sp, #22]	@ tmp114, GPIO_InitStructure.GPIO_Speed
+  37:user/bsp_usart.c ****     GPIO_Init(DEBUG_USART_TX_GPIO_PORT, &GPIO_InitStructure);
+ 146              		.loc 1 37 0
+ 147 0056 194C     		ldr	r4, .L5	@ tmp117,
+ 148 0058 05A9     		add	r1, sp, #20	@ tmp139,,
+ 149 005a 2046     		mov	r0, r4	@, tmp117
+ 150 005c FFF7FEFF 		bl	GPIO_Init	@
+ 151              	.LVL4:
+  38:user/bsp_usart.c **** 
+  39:user/bsp_usart.c ****     GPIO_InitStructure.GPIO_Pin = DEBUG_USART_RX_GPIO_PIN;
+ 152              		.loc 1 39 0
+ 153 0060 4FF48063 		mov	r3, #1024	@ tmp119,
+ 154 0064 ADF81430 		strh	r3, [sp, #20]	@ movhi	@ tmp119, GPIO_InitStructure.GPIO_Pin
+  40:user/bsp_usart.c ****     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+ 155              		.loc 1 40 0
+ 156 0068 0423     		movs	r3, #4	@ tmp120,
+ 157 006a 8DF81730 		strb	r3, [sp, #23]	@ tmp120, GPIO_InitStructure.GPIO_Mode
+  41:user/bsp_usart.c ****     GPIO_Init(DEBUG_USART_RX_GPIO_PORT, &GPIO_InitStructure);
+ 158              		.loc 1 41 0
+ 159 006e 05A9     		add	r1, sp, #20	@ tmp140,,
+ 160 0070 2046     		mov	r0, r4	@, tmp117
+ 161 0072 FFF7FEFF 		bl	GPIO_Init	@
+ 162              	.LVL5:
+  42:user/bsp_usart.c **** 
+  43:user/bsp_usart.c **** 
+  44:user/bsp_usart.c ****     // 配置串口的工作参数
+  45:user/bsp_usart.c ****     // 配置波特率
+  46:user/bsp_usart.c ****     USART_InitStructure.USART_BaudRate = DEBUG_USART_BAUDRATE;
+ 163              		.loc 1 46 0
+ 164 0076 4FF4E133 		mov	r3, #115200	@ tmp124,
+ 165 007a 0193     		str	r3, [sp, #4]	@ tmp124, USART_InitStructure.USART_BaudRate
+  47:user/bsp_usart.c ****     // 配置 帧数据字长
+  48:user/bsp_usart.c ****     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+ 166              		.loc 1 48 0
+ 167 007c 0023     		movs	r3, #0	@ tmp126,
+ 168 007e ADF80830 		strh	r3, [sp, #8]	@ movhi	@ tmp126, USART_InitStructure.USART_WordLength
+  49:user/bsp_usart.c ****     // 配置停止位
+  50:user/bsp_usart.c ****     USART_InitStructure.USART_StopBits = USART_StopBits_1;
+ 169              		.loc 1 50 0
+ 170 0082 ADF80A30 		strh	r3, [sp, #10]	@ movhi	@ tmp126, USART_InitStructure.USART_StopBits
+  51:user/bsp_usart.c ****     // 配置校验位
+  52:user/bsp_usart.c ****     USART_InitStructure.USART_Parity = USART_Parity_No;
+ 171              		.loc 1 52 0
+ 172 0086 ADF80C30 		strh	r3, [sp, #12]	@ movhi	@ tmp126, USART_InitStructure.USART_Parity
+  53:user/bsp_usart.c ****     // 配置硬件流控制
+  54:user/bsp_usart.c ****     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+ 173              		.loc 1 54 0
+ 174 008a ADF81030 		strh	r3, [sp, #16]	@ movhi	@ tmp126, USART_InitStructure.USART_HardwareFlowControl
+  55:user/bsp_usart.c ****     // 配置工作模式
+  56:user/bsp_usart.c ****     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+ 175              		.loc 1 56 0
+ARM GAS  /tmp/cctcIEy9.s 			page 5
+
+
+ 176 008e 0C23     		movs	r3, #12	@ tmp134,
+ 177 0090 ADF80E30 		strh	r3, [sp, #14]	@ movhi	@ tmp134, USART_InitStructure.USART_Mode
+  57:user/bsp_usart.c ****     // 完成串口初始化配置
+  58:user/bsp_usart.c ****     USART_Init(DEBUG_USARTx, &USART_InitStructure);
+ 178              		.loc 1 58 0
+ 179 0094 04F54054 		add	r4, r4, #12288	@ tmp136, tmp136,
+ 180 0098 01A9     		add	r1, sp, #4	@,,
+ 181 009a 2046     		mov	r0, r4	@, tmp136
+ 182 009c FFF7FEFF 		bl	USART_Init	@
+ 183              	.LVL6:
+  59:user/bsp_usart.c **** 
+  60:user/bsp_usart.c ****     // 串口中断优先级配置
+  61:user/bsp_usart.c ****     NVIC_Configuration();
+ 184              		.loc 1 61 0
+ 185 00a0 FFF7AEFF 		bl	NVIC_Configuration	@
+ 186              	.LVL7:
+  62:user/bsp_usart.c **** 
+  63:user/bsp_usart.c ****     // 使能串口接收中断
+  64:user/bsp_usart.c ****     USART_ITConfig(DEBUG_USARTx, USART_IT_RXNE, ENABLE);
+ 187              		.loc 1 64 0
+ 188 00a4 0122     		movs	r2, #1	@,
+ 189 00a6 40F22551 		movw	r1, #1317	@,
+ 190 00aa 2046     		mov	r0, r4	@, tmp136
+ 191 00ac FFF7FEFF 		bl	USART_ITConfig	@
+ 192              	.LVL8:
+  65:user/bsp_usart.c **** 
+  66:user/bsp_usart.c ****     // 使能串口
+  67:user/bsp_usart.c ****     USART_Cmd(DEBUG_USARTx, ENABLE);
+ 193              		.loc 1 67 0
+ 194 00b0 0121     		movs	r1, #1	@,
+ 195 00b2 2046     		mov	r0, r4	@, tmp136
+ 196 00b4 FFF7FEFF 		bl	USART_Cmd	@
+ 197              	.LVL9:
+  68:user/bsp_usart.c **** }
+ 198              		.loc 1 68 0
+ 199 00b8 06B0     		add	sp, sp, #24	@,,
+ 200              	.LCFI5:
+ 201              		.cfi_def_cfa_offset 8
+ 202              		@ sp needed	@
+ 203 00ba 10BD     		pop	{r4, pc}	@
+ 204              	.L6:
+ 205              		.align	2
+ 206              	.L5:
+ 207 00bc 00080140 		.word	1073809408
+ 208              		.cfi_endproc
+ 209              	.LFE31:
+ 211              		.align	2
+ 212              		.global	USART_SendByte
+ 213              		.thumb
+ 214              		.thumb_func
+ 216              	USART_SendByte:
+ 217              	.LFB32:
+  69:user/bsp_usart.c **** 
+  70:user/bsp_usart.c **** // 发送一个字节
+  71:user/bsp_usart.c **** void USART_SendByte(USART_TypeDef *pUSARTx, uint8_t data)
+  72:user/bsp_usart.c **** {
+ 218              		.loc 1 72 0
+ARM GAS  /tmp/cctcIEy9.s 			page 6
+
+
+ 219              		.cfi_startproc
+ 220              		@ args = 0, pretend = 0, frame = 0
+ 221              		@ frame_needed = 0, uses_anonymous_args = 0
+ 222              	.LVL10:
+ 223 00c0 10B5     		push	{r4, lr}	@
+ 224              	.LCFI6:
+ 225              		.cfi_def_cfa_offset 8
+ 226              		.cfi_offset 4, -8
+ 227              		.cfi_offset 14, -4
+ 228 00c2 0446     		mov	r4, r0	@ pUSARTx, pUSARTx
+  73:user/bsp_usart.c ****     USART_SendData(pUSARTx, data);
+ 229              		.loc 1 73 0
+ 230 00c4 FFF7FEFF 		bl	USART_SendData	@
+ 231              	.LVL11:
+ 232              	.L8:
+  74:user/bsp_usart.c ****     while (USART_GetFlagStatus(pUSARTx,USART_FLAG_TXE) == RESET);
+ 233              		.loc 1 74 0 discriminator 1
+ 234 00c8 8021     		movs	r1, #128	@,
+ 235 00ca 2046     		mov	r0, r4	@, pUSARTx
+ 236 00cc FFF7FEFF 		bl	USART_GetFlagStatus	@
+ 237              	.LVL12:
+ 238 00d0 0028     		cmp	r0, #0	@
+ 239 00d2 F9D0     		beq	.L8	@
+  75:user/bsp_usart.c **** }
+ 240              		.loc 1 75 0
+ 241 00d4 10BD     		pop	{r4, pc}	@
+ 242              		.cfi_endproc
+ 243              	.LFE32:
+ 245 00d6 00BF     		.align	2
+ 246              		.global	USART_SendHalfWord
+ 247              		.thumb
+ 248              		.thumb_func
+ 250              	USART_SendHalfWord:
+ 251              	.LFB33:
+  76:user/bsp_usart.c **** 
+  77:user/bsp_usart.c **** // 发送两个字节
+  78:user/bsp_usart.c **** void USART_SendHalfWord(USART_TypeDef *pUSARTx, uint16_t data)
+  79:user/bsp_usart.c **** {
+ 252              		.loc 1 79 0
+ 253              		.cfi_startproc
+ 254              		@ args = 0, pretend = 0, frame = 0
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256              	.LVL13:
+ 257 00d8 38B5     		push	{r3, r4, r5, lr}	@
+ 258              	.LCFI7:
+ 259              		.cfi_def_cfa_offset 16
+ 260              		.cfi_offset 3, -16
+ 261              		.cfi_offset 4, -12
+ 262              		.cfi_offset 5, -8
+ 263              		.cfi_offset 14, -4
+ 264 00da 0446     		mov	r4, r0	@ pUSARTx, pUSARTx
+ 265 00dc 0D46     		mov	r5, r1	@ data, data
+ 266              	.LVL14:
+  80:user/bsp_usart.c ****     uint8_t temp_h, temp_l;
+  81:user/bsp_usart.c ****     temp_h = (data & 0xFF00) >> 8;
+  82:user/bsp_usart.c ****     temp_l = data & 0x00FF;
+  83:user/bsp_usart.c **** 
+ARM GAS  /tmp/cctcIEy9.s 			page 7
+
+
+  84:user/bsp_usart.c ****     USART_SendData(pUSARTx, temp_h);
+ 267              		.loc 1 84 0
+ 268 00de 090A     		lsrs	r1, r1, #8	@, data,
+ 269              	.LVL15:
+ 270 00e0 FFF7FEFF 		bl	USART_SendData	@
+ 271              	.LVL16:
+ 272              	.L11:
+  85:user/bsp_usart.c ****     while (USART_GetFlagStatus(pUSARTx,USART_FLAG_TXE) == RESET);
+ 273              		.loc 1 85 0 discriminator 1
+ 274 00e4 8021     		movs	r1, #128	@,
+ 275 00e6 2046     		mov	r0, r4	@, pUSARTx
+ 276 00e8 FFF7FEFF 		bl	USART_GetFlagStatus	@
+ 277              	.LVL17:
+ 278 00ec 0028     		cmp	r0, #0	@
+ 279 00ee F9D0     		beq	.L11	@
+  86:user/bsp_usart.c **** 
+  87:user/bsp_usart.c ****     USART_SendData(pUSARTx, temp_l);
+ 280              		.loc 1 87 0
+ 281 00f0 E9B2     		uxtb	r1, r5	@, data
+ 282 00f2 2046     		mov	r0, r4	@, pUSARTx
+ 283 00f4 FFF7FEFF 		bl	USART_SendData	@
+ 284              	.LVL18:
+ 285              	.L12:
+  88:user/bsp_usart.c ****     while (USART_GetFlagStatus(pUSARTx,USART_FLAG_TXE) == RESET);
+ 286              		.loc 1 88 0 discriminator 1
+ 287 00f8 8021     		movs	r1, #128	@,
+ 288 00fa 2046     		mov	r0, r4	@, pUSARTx
+ 289 00fc FFF7FEFF 		bl	USART_GetFlagStatus	@
+ 290              	.LVL19:
+ 291 0100 0028     		cmp	r0, #0	@
+ 292 0102 F9D0     		beq	.L12	@
+  89:user/bsp_usart.c **** 
+  90:user/bsp_usart.c **** }
+ 293              		.loc 1 90 0
+ 294 0104 38BD     		pop	{r3, r4, r5, pc}	@
+ 295              		.cfi_endproc
+ 296              	.LFE33:
+ 298 0106 00BF     		.align	2
+ 299              		.global	USART_SendArray
+ 300              		.thumb
+ 301              		.thumb_func
+ 303              	USART_SendArray:
+ 304              	.LFB34:
+  91:user/bsp_usart.c **** 
+  92:user/bsp_usart.c **** // 发送8位数据的数组
+  93:user/bsp_usart.c **** void USART_SendArray(USART_TypeDef *pUSARTx, uint8_t *arr, uint8_t num)
+  94:user/bsp_usart.c **** {
+ 305              		.loc 1 94 0
+ 306              		.cfi_startproc
+ 307              		@ args = 0, pretend = 0, frame = 0
+ 308              		@ frame_needed = 0, uses_anonymous_args = 0
+ 309              	.LVL20:
+ 310 0108 F8B5     		push	{r3, r4, r5, r6, r7, lr}	@
+ 311              	.LCFI8:
+ 312              		.cfi_def_cfa_offset 24
+ 313              		.cfi_offset 3, -24
+ 314              		.cfi_offset 4, -20
+ARM GAS  /tmp/cctcIEy9.s 			page 8
+
+
+ 315              		.cfi_offset 5, -16
+ 316              		.cfi_offset 6, -12
+ 317              		.cfi_offset 7, -8
+ 318              		.cfi_offset 14, -4
+ 319 010a 0546     		mov	r5, r0	@ pUSARTx, pUSARTx
+ 320 010c 0F46     		mov	r7, r1	@ arr, arr
+ 321 010e 1646     		mov	r6, r2	@ num, num
+ 322              	.LVL21:
+  95:user/bsp_usart.c ****     uint8_t i = 0;
+  96:user/bsp_usart.c **** 
+  97:user/bsp_usart.c ****     for ( i = 0; i < num; i++)
+ 323              		.loc 1 97 0
+ 324 0110 0024     		movs	r4, #0	@ i,
+ 325 0112 05E0     		b	.L15	@
+ 326              	.LVL22:
+ 327              	.L16:
+  98:user/bsp_usart.c ****     {
+  99:user/bsp_usart.c ****         USART_SendByte(pUSARTx, arr[i]);
+ 328              		.loc 1 99 0 discriminator 3
+ 329 0114 395D     		ldrb	r1, [r7, r4]	@ zero_extendqisi2	@, *_8
+ 330 0116 2846     		mov	r0, r5	@, pUSARTx
+ 331 0118 FFF7FEFF 		bl	USART_SendByte	@
+ 332              	.LVL23:
+  97:user/bsp_usart.c ****     {
+ 333              		.loc 1 97 0 discriminator 3
+ 334 011c 0134     		adds	r4, r4, #1	@ tmp119, i,
+ 335              	.LVL24:
+ 336 011e E4B2     		uxtb	r4, r4	@ i, tmp119
+ 337              	.LVL25:
+ 338              	.L15:
+  97:user/bsp_usart.c ****     {
+ 339              		.loc 1 97 0 is_stmt 0 discriminator 1
+ 340 0120 B442     		cmp	r4, r6	@ i, num
+ 341 0122 F7D3     		bcc	.L16	@,
+ 342              	.L17:
+ 100:user/bsp_usart.c ****     }
+ 101:user/bsp_usart.c ****     while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC) == RESET);
+ 343              		.loc 1 101 0 is_stmt 1 discriminator 1
+ 344 0124 4021     		movs	r1, #64	@,
+ 345 0126 2846     		mov	r0, r5	@, pUSARTx
+ 346 0128 FFF7FEFF 		bl	USART_GetFlagStatus	@
+ 347              	.LVL26:
+ 348 012c 0028     		cmp	r0, #0	@
+ 349 012e F9D0     		beq	.L17	@
+ 102:user/bsp_usart.c **** 
+ 103:user/bsp_usart.c **** }
+ 350              		.loc 1 103 0
+ 351 0130 F8BD     		pop	{r3, r4, r5, r6, r7, pc}	@
+ 352              		.cfi_endproc
+ 353              	.LFE34:
+ 355 0132 00BF     		.align	2
+ 356              		.global	USART_SendStr
+ 357              		.thumb
+ 358              		.thumb_func
+ 360              	USART_SendStr:
+ 361              	.LFB35:
+ 104:user/bsp_usart.c **** 
+ARM GAS  /tmp/cctcIEy9.s 			page 9
+
+
+ 105:user/bsp_usart.c **** // 发送字符串
+ 106:user/bsp_usart.c **** void USART_SendStr(USART_TypeDef *pUSARTx, const char *str)
+ 107:user/bsp_usart.c **** {
+ 362              		.loc 1 107 0
+ 363              		.cfi_startproc
+ 364              		@ args = 0, pretend = 0, frame = 0
+ 365              		@ frame_needed = 0, uses_anonymous_args = 0
+ 366              	.LVL27:
+ 367 0134 38B5     		push	{r3, r4, r5, lr}	@
+ 368              	.LCFI9:
+ 369              		.cfi_def_cfa_offset 16
+ 370              		.cfi_offset 3, -16
+ 371              		.cfi_offset 4, -12
+ 372              		.cfi_offset 5, -8
+ 373              		.cfi_offset 14, -4
+ 374 0136 0546     		mov	r5, r0	@ pUSARTx, pUSARTx
+ 375 0138 0C46     		mov	r4, r1	@ str, str
+ 108:user/bsp_usart.c ****     while (*str != '\0')
+ 376              		.loc 1 108 0
+ 377 013a 03E0     		b	.L20	@
+ 378              	.LVL28:
+ 379              	.L21:
+ 109:user/bsp_usart.c ****     {
+ 110:user/bsp_usart.c ****         USART_SendByte(pUSARTx, *str++);
+ 380              		.loc 1 110 0
+ 381 013c 0134     		adds	r4, r4, #1	@ str, str,
+ 382              	.LVL29:
+ 383 013e 2846     		mov	r0, r5	@, pUSARTx
+ 384 0140 FFF7FEFF 		bl	USART_SendByte	@
+ 385              	.LVL30:
+ 386              	.L20:
+ 108:user/bsp_usart.c ****     while (*str != '\0')
+ 387              		.loc 1 108 0
+ 388 0144 2178     		ldrb	r1, [r4]	@ zero_extendqisi2	@ D.7613, *str_1
+ 389 0146 0029     		cmp	r1, #0	@ D.7613
+ 390 0148 F8D1     		bne	.L21	@
+ 391              	.L22:
+ 111:user/bsp_usart.c ****     }
+ 112:user/bsp_usart.c ****         
+ 113:user/bsp_usart.c ****     while (USART_GetFlagStatus(pUSARTx, USART_FLAG_TC) == RESET);
+ 392              		.loc 1 113 0 discriminator 1
+ 393 014a 4021     		movs	r1, #64	@,
+ 394 014c 2846     		mov	r0, r5	@, pUSARTx
+ 395 014e FFF7FEFF 		bl	USART_GetFlagStatus	@
+ 396              	.LVL31:
+ 397 0152 0028     		cmp	r0, #0	@
+ 398 0154 F9D0     		beq	.L22	@
+ 114:user/bsp_usart.c **** 
+ 115:user/bsp_usart.c **** }
+ 399              		.loc 1 115 0
+ 400 0156 38BD     		pop	{r3, r4, r5, pc}	@
+ 401              		.cfi_endproc
+ 402              	.LFE35:
+ 404              		.align	2
+ 405              		.global	_write
+ 406              		.thumb
+ 407              		.thumb_func
+ARM GAS  /tmp/cctcIEy9.s 			page 10
+
+
+ 409              	_write:
+ 410              	.LFB36:
+ 116:user/bsp_usart.c **** 
+ 117:user/bsp_usart.c **** 
+ 118:user/bsp_usart.c **** /*------------------------------  重定向  ------------------------------*/
+ 119:user/bsp_usart.c **** // MDK中的方式
+ 120:user/bsp_usart.c **** // 重定向c库函数printf到串口
+ 121:user/bsp_usart.c **** /* int fputc(int ch, FILE *f)
+ 122:user/bsp_usart.c **** {
+ 123:user/bsp_usart.c ****     // 发送一个字节数据到串口
+ 124:user/bsp_usart.c ****     USART_SendData(DEBUG_USARTx, (uint8_t)ch);
+ 125:user/bsp_usart.c **** 
+ 126:user/bsp_usart.c ****     // 等待发送完成
+ 127:user/bsp_usart.c ****     while (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE) == RESET);
+ 128:user/bsp_usart.c **** 
+ 129:user/bsp_usart.c ****     return ch;
+ 130:user/bsp_usart.c **** } */
+ 131:user/bsp_usart.c **** 
+ 132:user/bsp_usart.c **** // 重定向c库函数scanf到串口,scanf,getchar
+ 133:user/bsp_usart.c **** /* int fgetc(FILE *f)
+ 134:user/bsp_usart.c **** {
+ 135:user/bsp_usart.c ****     while (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_RXNE) == RESET)
+ 136:user/bsp_usart.c ****         ;
+ 137:user/bsp_usart.c **** 
+ 138:user/bsp_usart.c ****     return (int)USART_ReceiveData(DEBUG_USARTx);
+ 139:user/bsp_usart.c **** } */
+ 140:user/bsp_usart.c **** 
+ 141:user/bsp_usart.c **** 
+ 142:user/bsp_usart.c **** /*----------- GNU gcc的方式 ----------------*/
+ 143:user/bsp_usart.c **** int _write(int fd, char *ptr, int len)
+ 144:user/bsp_usart.c **** {
+ 411              		.loc 1 144 0
+ 412              		.cfi_startproc
+ 413              		@ args = 0, pretend = 0, frame = 0
+ 414              		@ frame_needed = 0, uses_anonymous_args = 0
+ 415              	.LVL32:
+ 145:user/bsp_usart.c ****     // // 发送一个字节数据到串口
+ 146:user/bsp_usart.c **** 
+ 147:user/bsp_usart.c ****     // USART_SendStr(DEBUG_USARTx, ptr);
+ 148:user/bsp_usart.c **** 
+ 149:user/bsp_usart.c ****     // // 等待发送完成
+ 150:user/bsp_usart.c ****     // // while (USART_GetFlagStatus(DEBUG_USARTx, USART_FLAG_TXE) == RESET);
+ 151:user/bsp_usart.c **** 
+ 152:user/bsp_usart.c ****     // return len;
+ 153:user/bsp_usart.c ****     // -上面的方式放回的len不对，导致有些乱码问题，还是得老老实实去遍�
+ 154:user/bsp_usart.c ****     int i = 0;
+ 155:user/bsp_usart.c ****     if (fd > 2)
+ 416              		.loc 1 155 0
+ 417 0158 0228     		cmp	r0, #2	@ fd,
+ 418 015a 0FDC     		bgt	.L28	@,
+ 144:user/bsp_usart.c ****     // // 发送一个字节数据到串口
+ 419              		.loc 1 144 0
+ 420 015c 70B5     		push	{r4, r5, r6, lr}	@
+ 421              	.LCFI10:
+ 422              		.cfi_def_cfa_offset 16
+ 423              		.cfi_offset 4, -16
+ 424              		.cfi_offset 5, -12
+ARM GAS  /tmp/cctcIEy9.s 			page 11
+
+
+ 425              		.cfi_offset 6, -8
+ 426              		.cfi_offset 14, -4
+ 427 015e 0D46     		mov	r5, r1	@ ptr, ptr
+ 428 0160 1646     		mov	r6, r2	@ len, len
+ 429 0162 0024     		movs	r4, #0	@ i,
+ 430 0164 04E0     		b	.L26	@
+ 431              	.LVL33:
+ 432              	.L27:
+ 156:user/bsp_usart.c ****     {
+ 157:user/bsp_usart.c ****         return -1;
+ 158:user/bsp_usart.c ****     }
+ 159:user/bsp_usart.c **** 
+ 160:user/bsp_usart.c ****     while (*ptr && (i < len))
+ 161:user/bsp_usart.c ****     {
+ 162:user/bsp_usart.c ****         USART_SendByte(DEBUG_USARTx, (uint8_t)*ptr);
+ 433              		.loc 1 162 0
+ 434 0166 0848     		ldr	r0, .L31	@,
+ 435 0168 FFF7FEFF 		bl	USART_SendByte	@
+ 436              	.LVL34:
+ 163:user/bsp_usart.c ****         // if (*ptr == '\n')
+ 164:user/bsp_usart.c ****         // {
+ 165:user/bsp_usart.c ****         //     USART_SendByte(DEBUG_USARTx, '\r');
+ 166:user/bsp_usart.c ****         // }
+ 167:user/bsp_usart.c **** 
+ 168:user/bsp_usart.c ****         i++;
+ 437              		.loc 1 168 0
+ 438 016c 0134     		adds	r4, r4, #1	@ i, i,
+ 439              	.LVL35:
+ 169:user/bsp_usart.c ****         ptr++;
+ 440              		.loc 1 169 0
+ 441 016e 0135     		adds	r5, r5, #1	@ ptr, ptr,
+ 442              	.LVL36:
+ 443              	.L26:
+ 160:user/bsp_usart.c ****     {
+ 444              		.loc 1 160 0
+ 445 0170 2978     		ldrb	r1, [r5]	@ zero_extendqisi2	@ D.7616, *ptr_1
+ 446 0172 31B1     		cbz	r1, .L29	@ D.7616,
+ 160:user/bsp_usart.c ****     {
+ 447              		.loc 1 160 0 is_stmt 0 discriminator 1
+ 448 0174 B442     		cmp	r4, r6	@ i, len
+ 449 0176 F6DB     		blt	.L27	@,
+ 170:user/bsp_usart.c ****     }
+ 171:user/bsp_usart.c **** 
+ 172:user/bsp_usart.c ****     return i;
+ 450              		.loc 1 172 0 is_stmt 1
+ 451 0178 2046     		mov	r0, r4	@ D.7615, i
+ 452 017a 70BD     		pop	{r4, r5, r6, pc}	@
+ 453              	.LVL37:
+ 454              	.L28:
+ 455              	.LCFI11:
+ 456              		.cfi_def_cfa_offset 0
+ 457              		.cfi_restore 4
+ 458              		.cfi_restore 5
+ 459              		.cfi_restore 6
+ 460              		.cfi_restore 14
+ 157:user/bsp_usart.c ****     }
+ 461              		.loc 1 157 0
+ARM GAS  /tmp/cctcIEy9.s 			page 12
+
+
+ 462 017c 4FF0FF30 		mov	r0, #-1	@ D.7615,
+ 463              	.LVL38:
+ 173:user/bsp_usart.c **** }
+ 464              		.loc 1 173 0
+ 465 0180 7047     		bx	lr	@
+ 466              	.LVL39:
+ 467              	.L29:
+ 468              	.LCFI12:
+ 469              		.cfi_def_cfa_offset 16
+ 470              		.cfi_offset 4, -16
+ 471              		.cfi_offset 5, -12
+ 472              		.cfi_offset 6, -8
+ 473              		.cfi_offset 14, -4
+ 172:user/bsp_usart.c **** }
+ 474              		.loc 1 172 0
+ 475 0182 2046     		mov	r0, r4	@ D.7615, i
+ 476              		.loc 1 173 0
+ 477 0184 70BD     		pop	{r4, r5, r6, pc}	@
+ 478              	.LVL40:
+ 479              	.L32:
+ 480 0186 00BF     		.align	2
+ 481              	.L31:
+ 482 0188 00380140 		.word	1073821696
+ 483              		.cfi_endproc
+ 484              	.LFE36:
+ 486              	.Letext0:
+ 487              		.file 2 "/home/rice/emba/gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 488              		.file 3 "/home/rice/emba/gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 489              		.file 4 "./fwlib/CMSIS/stm32f10x.h"
+ 490              		.file 5 "./fwlib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_gpio.h"
+ 491              		.file 6 "./fwlib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_usart.h"
+ 492              		.file 7 "./fwlib/STM32F10x_StdPeriph_Driver/inc/misc.h"
+ 493              		.file 8 "./fwlib/STM32F10x_StdPeriph_Driver/inc/stm32f10x_rcc.h"
+ 494              		.file 9 "./fwlib/CMSIS/core_cm3.h"
+ARM GAS  /tmp/cctcIEy9.s 			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 bsp_usart.c
+     /tmp/cctcIEy9.s:63     .text:00000000 $t
+     /tmp/cctcIEy9.s:67     .text:00000000 NVIC_Configuration
+     /tmp/cctcIEy9.s:113    .text:0000002c USART_Conf
+     /tmp/cctcIEy9.s:207    .text:000000bc $d
+     /tmp/cctcIEy9.s:211    .text:000000c0 $t
+     /tmp/cctcIEy9.s:216    .text:000000c0 USART_SendByte
+     /tmp/cctcIEy9.s:250    .text:000000d8 USART_SendHalfWord
+     /tmp/cctcIEy9.s:303    .text:00000108 USART_SendArray
+     /tmp/cctcIEy9.s:360    .text:00000134 USART_SendStr
+     /tmp/cctcIEy9.s:409    .text:00000158 _write
+     /tmp/cctcIEy9.s:482    .text:00000188 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+NVIC_PriorityGroupConfig
+NVIC_Init
+RCC_APB2PeriphClockCmd
+GPIO_Init
+USART_Init
+USART_ITConfig
+USART_Cmd
+USART_SendData
+USART_GetFlagStatus
