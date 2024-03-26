@@ -21,7 +21,7 @@ DEFS	  = $(DDEFS) -DRUN_FROM_FLASH=1
 LDSCRIPT = ./stm32f103c8t6_flash.ld
 
 AS_FLAGS = -mcpu=$(mcu) -g -gdwarf-2 -mthumb  -Wa,-amhls=$(<:.s=.lst)
-CP_FLAGS = -mcpu=$(mcu) -Os -g -gdwarf-2 -mthumb -fomit-frame-pointer -Wall -fverbose-asm -Wa,-ahlms=$(<:.c=.lst) $(DEFS)
+CP_FLAGS = -mcpu=$(mcu) -Os -g -gdwarf-2 -mthumb -fomit-frame-pointer -Wall -fverbose-asm -Wa,-ahlms=$(OUTPUT)$(notdir $(<:.c=.lst)) $(DEFS)
 LD_FLAGS = -mcpu=$(mcu) -specs=nano.specs -g -gdwarf-2 -mthumb -nostartfiles \
            -Xlinker --gc-sections -T$(LDSCRIPT) -Wl,-Map=$(TARGERT).map,--cref,--no-warn-mismatch
 
@@ -40,12 +40,10 @@ FW_SRC := $(wildcard $(FWLIB_CMSIS)*.c)
 FW_SRC += $(wildcard $(FWLIB_PERIPH)src/*.c)
 FW_INC := $(wildcard $(FWLIB_CMSIS)*.h)
 FW_INC += $(wildcard $(FWLIB_PERIPH)inc/*.h)
-$(info $(FW_INC))
 
 # startup
 ASM_SRC = ./startup/startup_stm32f10x_md.s
-ASM_OBJ = $(ASM_SRC:.s=.o)
-obj    += $(addprefix $(OUTPUT),$(notdir $(ASM_OBJ)))
+ASM_OBJ = $(addprefix $(OUTPUT),$(notdir $(ASM_SRC:.s=.o)))
 
 # FreeRTOS source
 FREERTOS_DIR  = ./freertos/
@@ -60,26 +58,33 @@ obj += $(addprefix $(OUTPUT),$(notdir $(src:.c=.o)))
 inc += $(SOURCE_INC) $(FW_INC) $(FREERTOS_INC)
 
 # default action: build all
-all: $(OUTPUT)$(TARGERT).elf $(BINDIR)$(TARGERT).bin $(BINDIR)$(TARGERT).hex
+all: $(ASM_OBJ) $(obj) $(OUTPUT)$(TARGERT).elf $(BINDIR)$(TARGERT).hex $(BINDIR)$(TARGERT).bin
 
 $(obj): $(src) Makefile | $(OUTPUT)
-	$(CC) -c $(CP_FLAGS) -I . $(inc) $< -o $@
+	$(CC) -c $(CP_FLAGS) -I $(inc) $< -o $@
 
-$(obj): $(ASM_SRC) Makefile | $(OUTPUT)
+# %.o: $(ASM_SRC) Makefile | $(OUTPUT)
+$(ASM_OBJ): $(ASM_SRC)
 	$(AS) -c $(AS_FLAGS) $< -o $@
 
-$(OUTPUT)%.elf: $(obj) Makefile
+$(OUTPUT)$(TARGERT).elf: $(obj)
 	$(CC) $(obj) $(LD_FLAGS) -o $@
 	$(SZ) $@
 
-$(BINDIR)%.hex: $(OUTPUT)%.elf | $(OUTPUT)
+# $(BINDIR)%.hex: $(OUTPUT)%.elf | $(OUTPUT)
+%.hex: %.elf
 	$(HEX) $< $@
 
-$(BINDIR)%.bin: $(OUTPUT)%.elf | $(OUTPUT)
+# $(BINDIR)%.bin: $(OUTPUT)%.elf | $(OUTPUT)
+%.bin: %.elf
 	$(BIN) $< $@
 
-.PHONY: 
+.PHONY:clean
 clean:
 	rm -rf $(obj)
+	rm -rf $(ASM_OBJ)
 	rm -rf ./startup/startup_stm32f10x_md.lst
+	rm -rf ./startup/startup_stm32f10x_md.o
+	rm -rf ./build/bsp_usart.o
+	find . -name "*.gch" | xargs rm
 	rm test.map
