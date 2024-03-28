@@ -16,7 +16,7 @@ inc :=
 # run code from flash
 DDEFS   += -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000
 DEFS	 = $(DDEFS) -DRUN_FROM_FLASH=1
-LDSCRIPT = ./stm32f103c8t6_flash.ld
+LDSCRIPT = ./startup/stm32f103c8t6_flash.ld
 
 mcu      = cortex-m3
 CPUFLAGS = -mthumb -mcpu=$(mcu)
